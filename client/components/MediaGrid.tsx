@@ -193,9 +193,18 @@ export function MediaGrid({
             item={item}
             isSelected={selectedItems.includes(item.id)}
             onToggleSelection={toggleSelection}
+            onPreview={openPreview}
           />
         ))}
       </div>
+
+      {/* Preview Modal */}
+      <MediaPreviewModal
+        item={previewItem}
+        isOpen={isPreviewOpen}
+        onClose={closePreview}
+        onUpdate={updateMediaItem}
+      />
 
       {filteredItems.length === 0 && (
         <div className="text-center py-12">
