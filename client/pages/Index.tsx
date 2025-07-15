@@ -25,6 +25,42 @@ export default function Index() {
   const [selectedFolderData, setSelectedFolderData] = useState<any>(null);
   const [showFolderTree, setShowFolderTree] = useState(true);
 
+  const handleFolderSelect = (path: string, folder: any) => {
+    setCurrentPath(path);
+    setSelectedFolderData(folder);
+    // Update the selected folder type based on path
+    if (path.startsWith("/user")) {
+      setSelectedFolder("user");
+    } else if (path.startsWith("/global")) {
+      setSelectedFolder("global");
+    } else {
+      setSelectedFolder("all");
+    }
+  };
+
+  const handleFolderCreate = (parentPath: string, name: string) => {
+    toast.success(`Created folder "${name}" in ${parentPath}`);
+    // In a real app, this would make an API call to create the folder
+  };
+
+  const handleFolderRename = (path: string, newName: string) => {
+    toast.success(`Renamed folder to "${newName}"`);
+    // In a real app, this would make an API call to rename the folder
+  };
+
+  const handleFolderDelete = (path: string) => {
+    toast.success(`Deleted folder at ${path}`);
+    // In a real app, this would make an API call to delete the folder
+  };
+
+  const handleBreadcrumbNavigate = (path: string) => {
+    setCurrentPath(path);
+    if (path === "/") {
+      setSelectedFolder("all");
+      setSelectedFolderData(null);
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Page Header */}
