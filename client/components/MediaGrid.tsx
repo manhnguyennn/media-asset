@@ -39,6 +39,7 @@ interface MediaItem {
 interface MediaGridProps {
   selectedFolder?: "user" | "global" | "all";
   selectedType?: "all" | "image" | "video";
+  currentPath?: string;
 }
 
 // Mock data for demonstration
