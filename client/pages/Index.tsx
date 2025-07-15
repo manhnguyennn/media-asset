@@ -1,8 +1,18 @@
 import React, { useState } from "react";
 import { MediaGrid } from "@/components/MediaGrid";
+import { FolderTree } from "@/components/FolderTree";
+import { BreadcrumbNav } from "@/components/BreadcrumbNav";
 import { Button } from "@/components/ui/button";
-import { Upload, Plus, FolderPlus } from "lucide-react";
+import {
+  Upload,
+  Plus,
+  FolderPlus,
+  LayoutSidebar,
+  LayoutSidebarClose,
+} from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card } from "@/components/ui/card";
+import { toast } from "sonner";
 
 export default function Index() {
   const [selectedFolder, setSelectedFolder] = useState<
@@ -11,6 +21,9 @@ export default function Index() {
   const [selectedType, setSelectedType] = useState<"all" | "image" | "video">(
     "all",
   );
+  const [currentPath, setCurrentPath] = useState<string>("/");
+  const [selectedFolderData, setSelectedFolderData] = useState<any>(null);
+  const [showFolderTree, setShowFolderTree] = useState(true);
 
   return (
     <div className="space-y-6">
