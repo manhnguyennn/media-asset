@@ -139,6 +139,21 @@ export function MediaGrid({
     );
   };
 
+  const openPreview = (item: MediaItem) => {
+    setPreviewItem(item);
+    setIsPreviewOpen(true);
+  };
+
+  const closePreview = () => {
+    setIsPreviewOpen(false);
+    setPreviewItem(null);
+  };
+
+  const updateMediaItem = (updatedItem: MediaItem) => {
+    // In a real app, this would update the backend
+    console.log("Updated item:", updatedItem);
+  };
+
   return (
     <div className="space-y-6">
       {/* Toolbar */}
