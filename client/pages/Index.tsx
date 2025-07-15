@@ -62,9 +62,9 @@ export default function Index() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="h-full flex flex-col">
       {/* Page Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Media Library</h1>
           <p className="text-muted-foreground">
@@ -72,6 +72,17 @@ export default function Index() {
           </p>
         </div>
         <div className="flex items-center space-x-3">
+          <Button
+            variant="outline"
+            onClick={() => setShowFolderTree(!showFolderTree)}
+          >
+            {showFolderTree ? (
+              <LayoutSidebarClose className="h-4 w-4 mr-2" />
+            ) : (
+              <LayoutSidebar className="h-4 w-4 mr-2" />
+            )}
+            {showFolderTree ? "Hide" : "Show"} Folders
+          </Button>
           <Button variant="outline">
             <FolderPlus className="h-4 w-4 mr-2" />
             New Folder
@@ -83,33 +94,77 @@ export default function Index() {
         </div>
       </div>
 
-      {/* Filters */}
-      <div className="flex flex-col space-y-4 lg:flex-row lg:items-center lg:justify-between lg:space-y-0">
-        <Tabs
-          value={selectedFolder}
-          onValueChange={(value) => setSelectedFolder(value as any)}
-        >
-          <TabsList className="grid w-full grid-cols-3 lg:w-auto">
-            <TabsTrigger value="all">All Media</TabsTrigger>
-            <TabsTrigger value="user">User Media</TabsTrigger>
-            <TabsTrigger value="global">Global Media</TabsTrigger>
-          </TabsList>
-        </Tabs>
+      {/* Main Content Area */}
+      <div className="flex-1 flex gap-6 min-h-0">
+        {/* Folder Tree Sidebar */}
+        {showFolderTree && (
+          <div className="w-80 flex-shrink-0">
+            <Card className="h-full">
+              <FolderTree
+                selectedPath={currentPath}
+                onFolderSelect={handleFolderSelect}
+                onFolderCreate={handleFolderCreate}
+                onFolderRename={handleFolderRename}
+                onFolderDelete={handleFolderDelete}
+              />
+            </Card>
+          </div>
+        )}
 
-        <Tabs
-          value={selectedType}
-          onValueChange={(value) => setSelectedType(value as any)}
-        >
-          <TabsList className="grid w-full grid-cols-3 lg:w-auto">
-            <TabsTrigger value="all">All Types</TabsTrigger>
-            <TabsTrigger value="image">Images</TabsTrigger>
-            <TabsTrigger value="video">Videos</TabsTrigger>
-          </TabsList>
-        </Tabs>
+        {/* Main Content */}
+        <div className="flex-1 flex flex-col min-w-0">
+          {/* Breadcrumb Navigation */}
+          <div className="flex items-center justify-between mb-4 pb-3 border-b border-border">
+            <BreadcrumbNav
+              path={currentPath}
+              onNavigate={handleBreadcrumbNavigate}
+            />
+
+            {selectedFolderData && (
+              <div className="text-sm text-muted-foreground">
+                {selectedFolderData.itemCount} items
+              </div>
+            )}
+          </div>
+
+          {/* Content Area with Filters and Grid */}
+          <div className="flex-1 flex flex-col space-y-4">
+            {/* Filters */}
+            <div className="flex flex-col space-y-4 lg:flex-row lg:items-center lg:justify-between lg:space-y-0">
+              <Tabs
+                value={selectedFolder}
+                onValueChange={(value) => setSelectedFolder(value as any)}
+              >
+                <TabsList className="grid w-full grid-cols-3 lg:w-auto">
+                  <TabsTrigger value="all">All Media</TabsTrigger>
+                  <TabsTrigger value="user">User Media</TabsTrigger>
+                  <TabsTrigger value="global">Global Media</TabsTrigger>
+                </TabsList>
+              </Tabs>
+
+              <Tabs
+                value={selectedType}
+                onValueChange={(value) => setSelectedType(value as any)}
+              >
+                <TabsList className="grid w-full grid-cols-3 lg:w-auto">
+                  <TabsTrigger value="all">All Types</TabsTrigger>
+                  <TabsTrigger value="image">Images</TabsTrigger>
+                  <TabsTrigger value="video">Videos</TabsTrigger>
+                </TabsList>
+              </Tabs>
+            </div>
+
+            {/* Media Grid */}
+            <div className="flex-1 overflow-y-auto">
+              <MediaGrid
+                selectedFolder={selectedFolder}
+                selectedType={selectedType}
+                currentPath={currentPath}
+              />
+            </div>
+          </div>
+        </div>
       </div>
-
-      {/* Media Grid */}
-      <MediaGrid selectedFolder={selectedFolder} selectedType={selectedType} />
     </div>
   );
 }
