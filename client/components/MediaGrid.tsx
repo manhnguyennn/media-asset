@@ -227,6 +227,7 @@ interface MediaCardProps {
   item: MediaItem;
   isSelected: boolean;
   onToggleSelection: (id: string) => void;
+  onPreview: (item: MediaItem) => void;
 }
 
 function MediaCard({ item, isSelected, onToggleSelection }: MediaCardProps) {
