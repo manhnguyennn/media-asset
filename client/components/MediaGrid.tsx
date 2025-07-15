@@ -297,7 +297,7 @@ function MediaCard({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={() => onPreview(item)}>
                   <Eye className="h-4 w-4 mr-2" />
                   Preview
                 </DropdownMenuItem>
