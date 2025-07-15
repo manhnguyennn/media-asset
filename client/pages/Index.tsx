@@ -1,62 +1,66 @@
-import { DemoResponse } from "@shared/api";
-import { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { MediaGrid } from "@/components/MediaGrid";
+import { Button } from "@/components/ui/button";
+import { Upload, Plus, FolderPlus } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Index() {
-  const [exampleFromServer, setExampleFromServer] = useState("");
-  // Fetch users on component mount
-  useEffect(() => {
-    fetchDemo();
-  }, []);
-
-  // Example of how to fetch data from the server (if needed)
-  const fetchDemo = async () => {
-    try {
-      const response = await fetch("/api/demo");
-      const data = (await response.json()) as DemoResponse;
-      setExampleFromServer(data.message);
-    } catch (error) {
-      console.error("Error fetching hello:", error);
-    }
-  };
+  const [selectedFolder, setSelectedFolder] = useState<
+    "all" | "user" | "global"
+  >("all");
+  const [selectedType, setSelectedType] = useState<"all" | "image" | "video">(
+    "all",
+  );
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200">
-      <div className="text-center">
-        {/* TODO: FUSION_GENERATION_APP_PLACEHOLDER replace everything here with the actual app! */}
-        <h1 className="text-2xl font-semibold text-slate-800 flex items-center justify-center gap-3">
-          <svg
-            className="animate-spin h-8 w-8 text-slate-400"
-            viewBox="0 0 50 50"
-          >
-            <circle
-              className="opacity-30"
-              cx="25"
-              cy="25"
-              r="20"
-              stroke="currentColor"
-              strokeWidth="5"
-              fill="none"
-            />
-            <circle
-              className="text-slate-600"
-              cx="25"
-              cy="25"
-              r="20"
-              stroke="currentColor"
-              strokeWidth="5"
-              fill="none"
-              strokeDasharray="100"
-              strokeDashoffset="75"
-            />
-          </svg>
-          Generating your app...
-        </h1>
-        <p className="mt-4 text-slate-600 max-w-md">
-          Watch the chat on the left for updates that might need your attention
-          to finish generating
-        </p>
-        <p className="mt-4 hidden max-w-md">{exampleFromServer}</p>
+    <div className="space-y-6">
+      {/* Page Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-foreground">Media Library</h1>
+          <p className="text-muted-foreground">
+            Manage your images, videos, and other media assets
+          </p>
+        </div>
+        <div className="flex items-center space-x-3">
+          <Button variant="outline">
+            <FolderPlus className="h-4 w-4 mr-2" />
+            New Folder
+          </Button>
+          <Button>
+            <Upload className="h-4 w-4 mr-2" />
+            Upload Media
+          </Button>
+        </div>
       </div>
+
+      {/* Filters */}
+      <div className="flex flex-col space-y-4 lg:flex-row lg:items-center lg:justify-between lg:space-y-0">
+        <Tabs
+          value={selectedFolder}
+          onValueChange={(value) => setSelectedFolder(value as any)}
+        >
+          <TabsList className="grid w-full grid-cols-3 lg:w-auto">
+            <TabsTrigger value="all">All Media</TabsTrigger>
+            <TabsTrigger value="user">User Media</TabsTrigger>
+            <TabsTrigger value="global">Global Media</TabsTrigger>
+          </TabsList>
+        </Tabs>
+
+        <Tabs
+          value={selectedType}
+          onValueChange={(value) => setSelectedType(value as any)}
+        >
+          <TabsList className="grid w-full grid-cols-3 lg:w-auto">
+            <TabsTrigger value="all">All Types</TabsTrigger>
+            <TabsTrigger value="image">Images</TabsTrigger>
+            <TabsTrigger value="video">Videos</TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+
+      {/* Media Grid */}
+      <MediaGrid selectedFolder={selectedFolder} selectedType={selectedType} />
     </div>
   );
 }
