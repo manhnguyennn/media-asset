@@ -230,7 +230,12 @@ interface MediaCardProps {
   onPreview: (item: MediaItem) => void;
 }
 
-function MediaCard({ item, isSelected, onToggleSelection }: MediaCardProps) {
+function MediaCard({
+  item,
+  isSelected,
+  onToggleSelection,
+  onPreview,
+}: MediaCardProps) {
   return (
     <Card
       className={cn(
