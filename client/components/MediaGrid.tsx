@@ -122,6 +122,8 @@ export function MediaGrid({
   selectedType = "all",
 }: MediaGridProps) {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [previewItem, setPreviewItem] = useState<MediaItem | null>(null);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
   // Filter items based on selected folder and type
   const filteredItems = mockMediaItems.filter((item) => {
