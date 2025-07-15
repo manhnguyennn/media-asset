@@ -121,6 +121,7 @@ const mockMediaItems: MediaItem[] = [
 export function MediaGrid({
   selectedFolder = "all",
   selectedType = "all",
+  currentPath = "/",
 }: MediaGridProps) {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [previewItem, setPreviewItem] = useState<MediaItem | null>(null);
